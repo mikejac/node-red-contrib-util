@@ -1,0 +1,27 @@
+{
+  "name": "node-red-contrib-util",
+  "version": "0.0.1",
+  "description": "Node-RED Various Utilities",
+  "main": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikejac/node-red-contrib-util.git"
+  },
+  "keywords": [
+    "util"
+  ],
+  "node-red": {
+    "nodes": {
+      "schmitt": "carport.js"
+    }
+  },
+  "author": "Michael Jacobsen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mikejac/node-red-contrib-util/issues"
+  },
+  "homepage": "https://github.com/mikejac/node-red-contrib-util#readme",
+  "dependencies": {
+  }
+}
