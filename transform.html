@@ -1,0 +1,75 @@
+<!--
+ NodeRED Utilities
+ Copyright (C) 2017 Michael Jacobsen.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<script type="text/x-red" data-template-name="util-transform">
+    <div class="form-row">
+        <label for="node-input-intopic"><i class="fa fa-globe"></i> In Topic</span></label>
+        <input type="text" id="node-input-intopic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-outtopic"><i class="fa fa-globe"></i> Out Topic</span></label>
+        <input type="text" id="node-input-outtopic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-invalue"><i class="fa fa-empire"></i> In Value</span></label>
+        <select id="node-input-invalue" style="width:125px !important">
+            <option value="false">false</option>
+            <option value="true">true</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-outvalue"><i class="fa fa-empire"></i> Out Value</span></label>
+        <select id="node-input-outvalue" style="width:125px !important">
+            <option value="false">false</option>
+            <option value="true">true</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-delay"><i class="fa fa-tag"></i> Delay</span></label>
+        <input type="text" id="node-input-delay" -1>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
+        <input type="text" id="node-input-name" Name>
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('util-transform',{
+        category: 'util-function',
+        paletteLabel: 'Transform',
+        defaults: {
+            intopic: {value:""},
+            outtopic: {value:""},
+            invalue: {value:"true"},
+            outvalue: {value:"false"},
+            delay: {value:-1},
+            name: {value:""},
+        },
+        color:"#d8bfd8",
+        inputs:1,
+        outputs:1,
+        icon: "bridge.png",
+        label: function() {
+            return this.name || "Transform";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>

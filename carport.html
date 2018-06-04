@@ -1,6 +1,6 @@
 <!--
  NodeRED Utilities
- Copyright (C) 2017 Michael Jacobsen / Marius Schmeding.
+ Copyright (C) 2017 Michael Jacobsen.
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,34 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
 
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>Ambient Brightness</span></label>
+        <input type="text" id="node-input-ambientbrightness" Value>
+    </div>
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>Motion Brightness</span></label>
+        <input type="text" id="node-input-motionbrightness" Value>
+    </div>
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>Manual Brightness</span></label>
+        <input type="text" id="node-input-manualbrightness" Value>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>Low Light Threshold Ambience</span></label>
+        <input type="text" id="node-input-lowlightthreshold_ambience" Value>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>High Light Threshold Ambience</span></label>
+        <input type="text" id="node-input-highlightthreshold_ambience" Value>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-dataid"><i class="fa fa-tag"></i>Low Light Threshold Motion</span></label>
+        <input type="text" id="node-input-lowlightthreshold_motion" Value>
+    </div>
+
     <div class="form-tips">
         <b>Input</b><br/>
         <code>msg.topic</code> must be one of these:<br/>
@@ -37,25 +65,57 @@
         <i><nbsp>heatingthresholdtemperature</i> (Float)<br/>
         <br/>
         <b>Outputs</b><br/>
-        <code>1:</code> TargetHeatingCoolingState<br/>
-        <code>2:</code> TargetTemperature<br/>
-        <code>3:</code> TargetRelativeHumidity<br/>
-        <code>4:</code> CoolingThresholdTemperature<br/>
-        <code>5:</code> HeatingThresholdTemperature<br/>
+        <code>1:</code> Ring Lightbulb<br/>
+        <code>2:</code> Center Lightbulb<br/>
+        <code>3:</code> Light Auto/On/Off<br/>
+        <code>4:</code> Veranda Lightbulb on/off<br/>
+        <code>5:</code> Ring Animation<br/>
+        <code>6:</code> Center Animation<br/>
     </div>
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType('util-homekit', {
+    RED.nodes.registerType('util-carport', {
         category: 'util-function',
         paletteLabel: 'Carport',
         defaults: {
             name: {
                 value: ""
+            },
+            ambientbrightness: {
+                value: 35,
+                required: true,
+                validate:RED.validators.number()
+            },
+            motionbrightness: {
+                value: 80,
+                required: true,
+                validate:RED.validators.number()
+            },
+            manualbrightness: {
+                value: 100,
+                required: true,
+                validate:RED.validators.number()
+            },
+            lowlightthreshold_ambience: {
+                value: 90,
+                required: true,
+                validate:RED.validators.number()
+            },
+            highlightthreshold_ambience: {
+                value: 110,
+                required: true,
+                validate:RED.validators.number()
+            },
+            lowlightthreshold_motion: {
+                value: 150,
+                required: true,
+                validate:RED.validators.number()
+
             }
         },
         inputs: 1,
-        outputs: 4,
+        outputs: 6,
         icon: "function.png",
         color: "#3FADB5",
         label: function() {
