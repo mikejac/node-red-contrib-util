@@ -55,6 +55,7 @@ module.exports = function (RED) {
         this.autoOnOff                      = MODE.AUTO;
         this.verandaOn                      = false;
         this.motionEnabled                  = false;
+        this.enableAmbientLight             = false;
 
         this.verandaMotionDetected          = null;             // date object
         this.verandaLightDetected           = null;             // date object
@@ -442,6 +443,25 @@ module.exports = function (RED) {
                 }
 
                 node.send([null, null, null, null, ringAnim, centerAnim]);
+            } else if (node.isEnableAmbientLight(msg)) {
+                RED.log.debug("UtilCarport(isEnableAmbientLight)");
+
+                if (node.mode != MODE.AUTO) {
+                    RED.log.debug("UtilCarport(isEnableAmbientLight): mode is not auto, do nothing");
+                    return;
+                }
+            
+                if (node.autoOnOff != MODE.AUTO) {
+                    RED.log.debug("UtilCarport(isEnableAmbientLight): automatic on/off is not auto, do nothing");
+                    return;
+                }
+            
+                if (node.myTimer !== null) {     // timer is running, do nothing
+                    RED.log.debug("UtilCarport(isEnableAmbientLight): timer is running, do nothing");
+                    return;
+                }
+            
+                node.doAmbientLight();
             } else if (node.isAmbientColor(msg) != 0) {
                 RED.log.debug("UtilCarport(isAmbientColor)");
                 
@@ -631,7 +651,7 @@ module.exports = function (RED) {
         //
         //
         this.isLightLevel = function(msg) {
-            if (msg.topic == "CurrentAmbientLightLevel") {
+            if (msg.topic == "currentambientlightlevel") {
                 if (!node.verandaOn) {
                     node.lightLevel = msg.payload;
                 } else {
@@ -736,6 +756,20 @@ module.exports = function (RED) {
         }
         //
         //
+        //
+        this.isEnableAmbientLight = function(msg) {
+            if (msg.topic == "enable_ambient_light") {
+                if (typeof msg.payload === "boolean") {
+                    node.enableAmbientLight = msg.payload;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+        //
+        //
         this.isAmbientColor = function(msg) {
             if (msg.topic == "ambient_color") {
                 if (typeof msg.payload === 'object') {
@@ -833,8 +867,11 @@ module.exports = function (RED) {
         this.doAmbientLight = function() {
             var centerMsg = {};
             var ringMsg   = {};
+            var darkness  = 0;
             
-            var darkness = node.isDark(node.lightLevel, node.lowlightthreshold_ambience, node.highlightthreshold_ambience);
+            if (node.enableAmbientLight) {
+                darkness = node.isDark(node.lightLevel, node.lowlightthreshold_ambience, node.highlightthreshold_ambience);
+            }
 
             switch (darkness) {
                 case 0:                 // not dark

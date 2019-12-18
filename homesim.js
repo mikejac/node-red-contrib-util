@@ -25,7 +25,7 @@ module.exports = function (RED) {
     var topicEnable     = "enable";
     var topicStart      = "start";
     var topicStop       = "stop";
-    var topicLightlevel = "CurrentAmbientLightLevel";
+    var topicLightlevel = "currentambientlightlevel";
 
     function UtilHomeSimNode(config) {
         RED.nodes.createNode(this, config);
